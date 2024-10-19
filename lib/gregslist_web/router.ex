@@ -20,6 +20,7 @@ defmodule GregslistWeb.Router do
   scope "/", GregslistWeb do
     pipe_through :browser
 
+
     get "/", PageController, :home 
     get "/gregslist", PageController, :gregslist
 
