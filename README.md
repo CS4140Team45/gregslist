@@ -1,4 +1,4 @@
-# Gregslist
+# Gregslist - Find what you are looking for!
 
 To start your Phoenix server:
 
