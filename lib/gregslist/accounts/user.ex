@@ -64,12 +64,19 @@ defmodule Gregslist.Accounts.User do
     |> maybe_hash_password(opts)
   end
 
-  defp validate_username(changeset, opts) do #phx-change="validate_username" gonna be line 78
+  defp validate_username(changeset, opts) do
     changeset
     |> validate_required([:username])
     |> validate_length(:username, min: 1, max: 12)
     |> validate_format(:username, ~r/^\w+$/, message: "can only contain alphanumeric characters and underscores")
     |> maybe_validate_unique_username(opts)
+  end
+
+  defp validate_zipcode(changeset, _opts) do
+    changeset
+    |> validate_required([:zipcode])
+    |> validate_length(:zipcode, min: 5, max: 5)
+    |> validate_format(:zipcode, ~r/^\d+$/, message: "can only contain digits")
   end
 
   defp maybe_validate_unique_username(changeset, opts) do
@@ -148,6 +155,12 @@ defmodule Gregslist.Accounts.User do
     |> maybe_validate_unique_username(opts)
   end
 
+  def zipcode_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:zipcode])
+    |> validate_zipcode(opts)
+  end
+
   @doc """
   Confirms the account by setting `confirmed_at`.
   """
@@ -182,6 +195,16 @@ defmodule Gregslist.Accounts.User do
     false
   end
 
+  def valid_zipcode?(%Gregslist.Accounts.User{hashed_password: hashed_password}, zipcode)
+      when is_binary(hashed_password) and byte_size(zipcode) > 0 do
+    Pbkdf2.verify_pass(zipcode, hashed_password)
+  end
+
+  def valid_zipcode?(_, _) do
+    Pbkdf2.no_user_verify()
+    false
+  end
+
   @doc """
   Validates the current password otherwise adds an error to the changeset.
   """
@@ -202,6 +225,16 @@ defmodule Gregslist.Accounts.User do
       changeset
     else
       add_error(changeset, :current_username, "is not valid")
+    end
+  end
+
+  def validate_current_zipcode(changeset, zipcode) do
+    changeset = cast(changeset, %{current_zipcode: zipcode}, [:current_zipcode])
+
+    if valid_zipcode?(changeset.data, zipcode) do
+      changeset
+    else
+      add_error(changeset, :current_zipcode, "is not valid")
     end
   end
 end

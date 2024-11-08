@@ -210,6 +210,18 @@ defmodule Gregslist.Accounts do
     |> Repo.update()
   end
 
+  def change_user_zipcode(%User{} = user, attrs \\ %{}) do
+    user
+    |> cast(attrs, [:zipcode])
+    |> validate_required([:zipcode])
+  end
+
+  def update_user_zipcode(%User{} = user, attrs) do
+    user
+    |> change_user_zipcode(attrs)
+    |> Repo.update()
+  end
+
 
   @doc """
   Updates the user password.

@@ -7,7 +7,7 @@ defmodule GregslistWeb.UserSettingsLive do
     ~H"""
     <.header class="text-center">
       Account Settings
-      <:subtitle>Edit your account username, email, or password.</:subtitle>
+      <:subtitle>Edit your account username, zipcode, email, or password.</:subtitle>
     </.header>
 
     <div class="space-y-12 divide-y">
@@ -34,6 +34,34 @@ defmodule GregslistWeb.UserSettingsLive do
         </label>
           <:actions>
             <.button phx-disable-with="Changing...">Change username</.button>
+          </:actions>
+        </.simple_form>
+      </div>
+
+      <div>
+        <.simple_form
+          for={@zipcode_form}
+          id="zipcode_form"
+          phx-change="validate_zipcode"
+          phx-submit="update_zipcode"
+        >
+        <.input
+          field={@zipcode_form[:zipcode]}
+          type="text"
+          label="Edit zipcode"
+          maxlength="5"
+          required
+        />
+        <.input
+          field={@zipcode_form[:zipcode_confirmation]}
+          type="text"
+          label="Confirm new zipcode"
+        />
+         <label id="current_zipcode_for_zipcode" class="label-class">
+          Current zipcode: <span><%= @current_zipcode %></span>
+        </label>
+          <:actions>
+            <.button phx-disable-with="Changing...">Change zipcode</.button>
           </:actions>
         </.simple_form>
       </div>
@@ -118,16 +146,19 @@ defmodule GregslistWeb.UserSettingsLive do
     email_changeset = Accounts.change_user_email(user)
     password_changeset = Accounts.change_user_password(user)
     username_changeset = Accounts.change_user_username(user)
+    zipcode_changeset = Accounts.change_user_zipcode(user)
 
     socket =
       socket
       |> assign(:current_password, nil)
       |> assign(:email_form_current_password, nil)
       |> assign(:current_username, user.username)
+      |> assign(:current_zipcode, user.zipcode)
       |> assign(:current_email, user.email)
       |> assign(:email_form, to_form(email_changeset))
       |> assign(:password_form, to_form(password_changeset))
       |> assign(:username_form, to_form(username_changeset))
+      |> assign(:zipcode_form, to_form(zipcode_changeset))
       |> assign(:trigger_submit, false)
 
     {:ok, socket}
@@ -237,6 +268,47 @@ defmodule GregslistWeb.UserSettingsLive do
     end
   end
 
+  def handle_event("validate_zipcode", %{"user" => %{"zipcode" => zipcode, "zipcode_confirmation" => zipcode_confirmation} = user_params}, socket) do
+    changeset =
+      socket.assigns.current_user
+      |> Accounts.change_user_zipcode(user_params)
+      |> Map.put(:action, :validate)
+
+    changeset =
+      if zipcode != zipcode_confirmation do
+        Ecto.Changeset.add_error(changeset, :zipcode_confirmation, "Zipcode confirmation does not match")
+      else
+        changeset
+      end
+
+    {:noreply, assign(socket, zipcode_form: to_form(changeset))}
+  end
+
+
+  def handle_event("update_zipcode", %{"user" => %{"zipcode" => zipcode, "zipcode_confirmation" => zipcode_confirmation} = user_params}, socket) do
+    user = socket.assigns.current_user
+
+    cond do
+      zipcode_confirmation == "" || zipcode != zipcode_confirmation ->
+        changeset = Accounts.change_user_zipcode(user, user_params)
+        changeset = Ecto.Changeset.add_error(changeset, :zipcode_confirmation, "Zipcode confirmation doesn't match")
+        {:noreply, assign(socket, zipcode_form: to_form(changeset))}
+
+      true ->
+        case Accounts.update_user_zipcode(user, user_params) do
+          {:ok, updated_user} ->
+            zipcode_form = Accounts.change_user_zipcode(updated_user) |> to_form()
+
+            {:noreply,
+             socket
+             |> put_flash(:info, "Zipcode updated successfully.")
+             |> assign(current_zipcode: updated_user, current_zipcode: updated_user.zipcode, zipcode_form: zipcode_form)}
+
+          {:error, changeset} ->
+            {:noreply, assign(socket, zipcode_form: to_form(changeset))}
+        end
+    end
+  end
 
 
   def handle_event("save", %{"user" => user_params}, socket) do
@@ -246,6 +318,17 @@ defmodule GregslistWeb.UserSettingsLive do
          socket
          |> put_flash(:info, "Username updated successfully")
          |> assign(:current_user, user)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+
+    case Accounts.update_user_zipcode(socket.assigns.current_user, user_params) do
+      {:ok, user} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Zipcode updated successfully")
+         |> assign(:current_zipcode, user)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
