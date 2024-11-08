@@ -20,17 +20,18 @@ defmodule GregslistWeb.Router do
   scope "/", GregslistWeb do
     pipe_through :browser
 
-
     get "/", PageController, :home
     get "/gregslist", PageController, :gregslist
+    get "/categories", PageController, :categories
 
     live "/items", ItemLive.Index, :index
     live "/items/new", ItemLive.Index, :new
     live "/items/:id/edit", ItemLive.Index, :edit
-    live "/furniture", ItemLive.Furniture
 
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit
+
+
   end
 
   # Other scopes may use custom stacks.
@@ -78,11 +79,6 @@ defmodule GregslistWeb.Router do
       on_mount: [{GregslistWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
-      live "/chat", ChatLive.Index, :index
-      live "/users", UserListLive.Index, :index
-      live "/user_chat/:recipient_id", UserChatLive.Index, :index
-      live "/users/profile", UserProfileLive.Index, :index
-
     end
   end
 

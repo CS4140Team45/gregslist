@@ -5,27 +5,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Logged In - GregsList</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<.header>
-  Sell an item
-  <:actions>
-    <.link patch={~p"/items/new"}>
-      <.button>New Item</.button>
-    </.link>
-  </:actions>
-</.header>
-<body class="min-h-screen flex flex-col justify-center items-center">
+
+<body class="min-h-screen flex flex-col justify-center items-center bg-gray-100">
 
   <!-- Main Content Area -->
-  <div class="bg-white shadow-lg rounded-lg p-8 max-w-lg text-center">
-    <h1 class="text-3xl font-bold text-gray-800 mb-4">Now That You've Logged In...</h1>
-    <p class="text-lg text-gray-600 mb-6">Ready to add your first item?</p>
+  <div class="bg-white shadow-xl rounded-lg p-10 max-w-lg text-center mb-8">
+    <h1 class="text-4xl font-semibold text-gray-800 mb-6">Now That You've Logged In...</h1>
+    <p class="text-lg text-gray-600 mb-8">Ready to add your first item to the list?</p>
 
     <!-- Call to Action Button -->
-    <a href="/items" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-500 transition-colors duration-300">
+    <a href="/items/new" class="inline-block bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300">
       List an Item
     </a>
   </div>
 
+  <!-- Main Content Area -->
+  <div class="bg-white shadow-xl rounded-lg p-10 max-w-lg text-center">
+    <p class="text-lg text-gray-600 mb-8">Or just browsing around?</p>
+
+    <!-- Call to Action Button -->
+    <a href="/categories" class="inline-block bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300">
+      Browse Categories
+    </a>
+  </div>
+
 </body>
+
 </html>

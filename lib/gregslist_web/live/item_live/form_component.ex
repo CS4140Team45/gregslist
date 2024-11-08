@@ -3,7 +3,7 @@ defmodule GregslistWeb.ItemLive.FormComponent do
 
   alias Gregslist.Galleries
 
-  defp render_live_file_input(assigns) do
+  defp _render_live_file_input(assigns) do
   live_file_input(assigns.uploads.art_image)
 end
 

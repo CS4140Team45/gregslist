@@ -15,4 +15,8 @@ defmodule GregslistWeb.PageController do
   render(conn, :gregslist)
   end
 
+  def categories(conn, _params) do
+  render(conn, "categories.html")
+  end
+
 end
