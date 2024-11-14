@@ -1,7 +1,7 @@
 <.header>
   Listing Items
   <:actions>
-    <.link patch={~p"/items/new"}>
+    <.link patch={~p"/new"}>
       <.button>New Item</.button>
     </.link>
   </:actions>
@@ -23,9 +23,6 @@
       <.link navigate={~p"/items/#{item}"}>Show</.link>
     </div>
     <.link patch={~p"/items/#{item}/edit"}>Edit</.link>
-    <div>
-      <.link patch={~p"/photo/#{item}"}>+ Photo</.link>
-    </div>
   </:action>
   <:action :let={{id, item}}>
     <.link

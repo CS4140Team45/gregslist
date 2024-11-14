@@ -3,6 +3,10 @@ defmodule GregslistWeb.ItemLive.FormComponent do
 
   alias Gregslist.Galleries
 
+  defp render_live_file_input(assigns) do
+  live_file_input(assigns.uploads.art_image)
+end
+
   @impl true
     def render(assigns) do
     ~H"""
@@ -31,6 +35,11 @@ defmodule GregslistWeb.ItemLive.FormComponent do
     </div>
     """
   end
+
+  def mount(socket) do
+    {:ok, allow_upload(socket, :art_image, accept: ~w(.png .jpeg .jpg), max_entries: 3)}
+  end
+
 
   @impl true
   def update(%{item: item} = assigns, socket) do
