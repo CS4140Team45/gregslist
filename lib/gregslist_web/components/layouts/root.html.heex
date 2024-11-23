@@ -8,83 +8,86 @@
       <%= assigns[:page_title] || "Gregslist" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
-    </script>
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
   </head>
-  <body class="bg-white">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          <%= @current_user.email %>
-        </li>
-        <li>
-          <.link
-            navigate={~p"/chat"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Chat
-          </.link>
-        </li>
-        <li>
-          <.link
-            navigate={~p"/gregslist"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Home
-          </.link>
-        </li>
-        <li>
-          <.link
-            navigate={~p"/items"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Items
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/profile"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Profile
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
-            href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Register
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log in
-          </.link>
-        </li>
-      <% end %>
-    </ul>
-    <%= @inner_content %>
+  <body class="bg-white flex">
+    <div class="w-64 h-screen bg-pink-600 text-white p-4">
+      <ul class="space-y-4">
+        <%= if @current_user do %>
+          <li class="text-sm leading-6">
+            <%= @current_user.email %>
+          </li>
+          <li>
+            <.link
+              navigate={~p"/gregslist"}
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Home
+            </.link>
+          </li>
+          <li>
+            <.link
+              navigate={~p"/items"}
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Items
+            </.link>
+          </li>
+          <li>
+            <.link
+              navigate={~p"/chat"}
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Chat
+            </.link>
+          </li>
+          <li>
+            <.link
+              href={~p"/users/profile"}
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Profile
+            </.link>
+          </li>
+          <li>
+            <.link
+              href={~p"/users/settings"}
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Settings
+            </.link>
+          </li>
+          <li>
+            <.link
+              href={~p"/users/log_out"}
+              method="delete"
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Log out
+            </.link>
+          </li>
+        <% else %>
+          <li>
+            <.link
+              href={~p"/users/register"}
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Register
+            </.link>
+          </li>
+          <li>
+            <.link
+              href={~p"/users/log_in"}
+              class="text-sm font-semibold hover:text-pink-200"
+            >
+              Log in
+            </.link>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="flex-1 p-4">
+      <%= @inner_content %>
+    </div>
   </body>
 </html>
