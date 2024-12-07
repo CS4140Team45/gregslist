@@ -1,35 +1,33 @@
-<.header>
-  Listing items
-  <:actions>
-    <.link href={~p"/items/new"}>
-      <.button>New item</.button>
-    </.link>
-  </:actions>
-</.header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-<.table id="items" rows={@items} row_click={&JS.navigate(~p"/items/#{&1}")}>
-  <:col :let={item} label="ID"><%= item.id %></:col>
-  <:col :let={item} label="Name"><%= item.item_name %></:col>
-  <:col :let={item} label="Category"><%= item.categories %></:col>
-  <:col :let={item} label="Desc"><%= item.desc %></:col>
-  <:col :let={item} label="Price">
-    <%= if is_number(item.price) do %>
-      <%= :erlang.float_to_binary(item.price, [:compact, {:decimals, 2}]) %>
-    <% else %>
-      <%= item.price %>
-    <% end %>
-  </:col>
-  <:col :let={item} label="Location"><%= item.location %></:col>
-  <:col :let={item} label="User"><%= item.user.username %></:col>
-  <:action :let={item}>
-    <.link navigate={~p"/items/#{item}/edit"}>Edit</.link>
-    <div>
-      <.link patch={~p"/photo/#{item}"}>+ Photo</.link>
+<h1 class="text-3xl font-bold text-indigo-900 mb-6"> Items Listed </h1>
+<body class="bg-gray-100">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white p-4 rounded shadow">
+      <div class="w-full text-center mt-8">
+        <a href="/items/new " class = "text-9xl justify-center items-center">
+          +
+        </a>
+      </div>
     </div>
-  </:action>
-  <:action :let={item}>
-    <.link href={~p"/items/#{item}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+    <%= for item <- @items do %>
+      <a href="/" class="bg-white p-4 rounded shadow flex flex-col items-center h-auto cursor-pointer hover:shadow-md transition-shadow">
+      <%= if item.images !=nil && length(item.images) > 0 do %>
+          <img src={hd(item.images).dataUrl} class="w-40 h-40 object-cover" />
+        <% end %>
+        <h3 class="font-semibold text-xl text-indigo-600"><%= item.item_name %></h3>
+        <p class="text-gray-600"><%= item.user.username %></p>
+        <p class="text-gray-600"><%= item.desc %></p>
+        <p class="text-green-600 font-semibold">$<%= item.price %></p>
+        <p class="text-gray-500">Category: <%= item.categories %></p>
+        <p class="text-gray-500">Location: <%= item.location %></p>
+      </a>
+    <% end %>
+  </div>
+</body>
+</html>
