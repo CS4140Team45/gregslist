@@ -25,7 +25,7 @@ defmodule GregslistWeb.Router do
     get "/photo/:id", PageController, :photo
     get "/categories", PageController, :categories
     get "/items/:id/detail", ItemController, :detail
-  
+
 
     post "/listingphoto", ImageApi, :add_image
 
@@ -33,6 +33,7 @@ defmodule GregslistWeb.Router do
     live "/new", ItemLive.Index, :new
     live "/detail", ItemController, :detail
     live "/items/:id/edit", ItemLive.Index, :edit
+
     live "/furniture", ItemLive.Furniture
     live "/clothes", ItemLive.Clothes
     live "/business", ItemLive.Business
@@ -91,6 +92,7 @@ defmodule GregslistWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
       live "/chat", ChatLive.Index, :index
+      live "/myitems", ItemLive.Myitems
       live "/users", UserListLive.Index, :index
       live "/user_chat/:recipient_id", UserChatLive.Index, :index
       live "/users/profile", UserProfileLive.Index, :index
@@ -106,7 +108,8 @@ defmodule GregslistWeb.Router do
 
     live_session :current_user,
       on_mount: [{GregslistWeb.UserAuth, :mount_current_user}] do
-      live "/users/confirm/:token", UserConfirmationLive, :edit
+        live "/myitems", ItemLive.Myitems
+        live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
