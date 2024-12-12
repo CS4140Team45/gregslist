@@ -18,10 +18,9 @@ defmodule GregslistWeb.ChatLive.Index do
 
   #Learned about this function in https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_event/3
   def handle_event("send", %{"text" => text}, socket) do
-    email = socket.assigns.current_user.email
-    username = String.split(email, "@") |> List.first()
+    username = socket.assigns.current_user.username
 
-    GregslistWeb.Endpoint.broadcast(topic(), "message", %{text: text, name: username})
+    GregslistWeb.Endpoint.broadcast(topic(), "message", %{text: text, username: username})
     {:noreply, socket}
   end
 

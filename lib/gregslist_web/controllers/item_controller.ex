@@ -25,7 +25,7 @@ defmodule GregslistWeb.ItemController do
     item_params = Map.put(item_params, "user_id", user_id)
 
     case Galleries.create_item(item_params) do
-      {:ok, item} ->
+      {:ok, _item} ->
         conn
         |> put_flash(:info, "item created successfully.")
         |> redirect(to: "/myitems")

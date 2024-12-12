@@ -5,75 +5,93 @@ defmodule GregslistWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header class="text-center">
-      Account Settings
-      <:subtitle>Edit your account username, zipcode, email, or password.</:subtitle>
-    </.header>
+    <div class="container mx-auto px-4 py-8">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <div class="text-center mb-8">
+          <h1 class="text-3xl font-extrabold text-indigo-700 mb-4">Account Settings</h1>
+          <p class="mt-2 text-gray-600">Edit your account username, zipcode, email, or password.</p>
+        </div>
 
-    <div class="space-y-12 divide-y">
-      <div>
         <.simple_form
           for={@username_form}
           id="username_form"
           phx-change="validate_username"
           phx-submit="update_username"
+          class="space-y-6 mt-8"
         >
-        <.input
-          field={@username_form[:username]}
-          type="text"
-          label="Edit username"
-          required
-        />
-        <.input
-          field={@username_form[:username_confirmation]}
-          type="text"
-          label="Confirm new username"
-        />
-         <label id="current_username_for_username" class="label-class">
-          Current username: <span><%= @current_username %></span>
-        </label>
+          <h3 class="text-xl font-semibold text-gray-700">Edit Username</h3>
+          <.input
+            field={@username_form[:username]}
+            type="text"
+            label="New username"
+            required
+            class="block w-full"
+          />
+          <.input
+            field={@username_form[:username_confirmation]}
+            type="text"
+            label="Confirm new username"
+            class="block w-full"
+          />
+          <label id="current_username_for_username" class="block text-sm text-gray-500">
+            Current username: <span class="font-medium text-gray-700"><%= @current_username %></span>
+          </label>
           <:actions>
-            <.button phx-disable-with="Changing...">Change username</.button>
+            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change username</.button>
           </:actions>
         </.simple_form>
-      </div>
 
-      <div>
+        <!-- Thin Line Separator -->
+        <hr class="my-6 border-t border-gray-400" />
+
         <.simple_form
           for={@zipcode_form}
           id="zipcode_form"
           phx-change="validate_zipcode"
           phx-submit="update_zipcode"
+          class="space-y-6 mt-8"
         >
-        <.input
-          field={@zipcode_form[:zipcode]}
-          type="text"
-          label="Edit zipcode"
-          maxlength="5"
-          required
-        />
-        <.input
-          field={@zipcode_form[:zipcode_confirmation]}
-          type="text"
-          label="Confirm new zipcode"
-        />
-         <label id="current_zipcode_for_zipcode" class="label-class">
-          Current zipcode: <span><%= @current_zipcode %></span>
-        </label>
+          <h3 class="text-xl font-semibold text-gray-700">Change Zipcode</h3>
+          <.input
+            field={@zipcode_form[:zipcode]}
+            type="text"
+            label="New zipcode"
+            maxlength="5"
+            required
+            class="block w-full"
+          />
+          <.input
+            field={@zipcode_form[:zipcode_confirmation]}
+            type="text"
+            label="Confirm new zipcode"
+            class="block w-full"
+          />
+          <label id="current_zipcode_for_zipcode" class="block text-sm text-gray-500">
+            Current zipcode: <span class="font-medium text-gray-700"><%= @current_zipcode %></span>
+          </label>
           <:actions>
-            <.button phx-disable-with="Changing...">Change zipcode</.button>
+            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change zipcode</.button>
           </:actions>
         </.simple_form>
-      </div>
 
-      <div>
+        <!-- Thin Line Separator -->
+        <hr class="my-6 border-t border-gray-400" />
+
         <.simple_form
           for={@email_form}
           id="email_form"
           phx-submit="update_email"
           phx-change="validate_email"
+          class="space-y-6 mt-8"
         >
-          <.input field={@email_form[:email]} type="email" label="Email" required />
+          <h3 class="text-xl font-semibold text-gray-700">Change Email</h3>
+          <.input
+            field={@email_form[:email]}
+            type="email"
+            label="New email"
+            required
+            class="block w-full"
+          />
           <.input
             field={@email_form[:current_password]}
             name="current_password"
@@ -82,13 +100,16 @@ defmodule GregslistWeb.UserSettingsLive do
             label="Current password"
             value={@email_form_current_password}
             required
+            class="block w-full"
           />
           <:actions>
-            <.button phx-disable-with="Changing...">Change Email</.button>
+            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change Email</.button>
           </:actions>
         </.simple_form>
-      </div>
-      <div>
+
+        <!-- Thin Line Separator -->
+        <hr class="my-6 border-t border-gray-400" />
+
         <.simple_form
           for={@password_form}
           id="password_form"
@@ -97,18 +118,27 @@ defmodule GregslistWeb.UserSettingsLive do
           phx-change="validate_password"
           phx-submit="update_password"
           phx-trigger-action={@trigger_submit}
+          class="space-y-6 mt-8"
         >
+          <h3 class="text-xl font-semibold text-gray-700">Change Password</h3>
           <input
             name={@password_form[:email].name}
             type="hidden"
             id="hidden_user_email"
             value={@current_email}
           />
-          <.input field={@password_form[:password]} type="password" label="New password" required />
+          <.input
+            field={@password_form[:password]}
+            type="password"
+            label="New password"
+            required
+            class="block w-full"
+          />
           <.input
             field={@password_form[:password_confirmation]}
             type="password"
             label="Confirm new password"
+            class="block w-full"
           />
           <.input
             field={@password_form[:current_password]}
@@ -118,15 +148,17 @@ defmodule GregslistWeb.UserSettingsLive do
             id="current_password_for_password"
             value={@current_password}
             required
+            class="block w-full"
           />
           <:actions>
-            <.button phx-disable-with="Changing...">Change Password</.button>
+            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change Password</.button>
           </:actions>
         </.simple_form>
       </div>
     </div>
     """
   end
+
 
   def mount(%{"token" => token}, _session, socket) do
     socket =
