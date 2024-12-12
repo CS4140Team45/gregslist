@@ -27,6 +27,27 @@
       <a href="/" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded">
         <i class="fas fa-home mr-2"></i> Home
       </a>
+
+      <a href="/items/new" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded">
+        <i class="fas fa-plus mr-2"></i> New Item
+      </a>
+
+      <!-- Social Dropdown -->
+      <div class="relative">
+        <button id="socialButton" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded focus:outline-none">
+          <i class="fas fa-users mr-2"></i>
+          <span>Social</span>
+        </button>
+        <!-- Dropdown Menu -->
+        <ul id="socialDropdown" class="absolute hidden bg-gray-800 text-white shadow-lg rounded mt-2 w-40 z-10">
+          <li>
+            <a href="/messages" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Messages</a>
+          </li>
+          <li>
+            <a href="/chat" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Live Chat</a>
+          </li>
+        </ul>
+      </div>
       
       <!-- Settings Dropdown -->
       <div class="relative">
@@ -45,26 +66,9 @@
         </ul>
       </div>
 
-      <!-- Social Dropdown -->
-      <div class="relative">
-        <button id="socialButton" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded focus:outline-none">
-          <i class="fas fa-users mr-2"></i>
-          <span>Social</span>
-        </button>
-        <!-- Dropdown Menu -->
-        <ul id="socialDropdown" class="absolute hidden bg-gray-800 text-white shadow-lg rounded mt-2 w-40 z-10">
-          <li>
-            <a href="/social/messages" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Messages</a>
-          </li>
-          <li>
-            <a href="/social/live-chat" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Live Chat</a>
-          </li>
-        </ul>
-      </div>
+      
 
-      <a href="/items/new" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded">
-        <i class="fas fa-plus mr-2"></i> New Item
-      </a>
+     
       <a href="/logout" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded">
         <i class="fas fa-sign-out-alt mr-2"></i> Log Out
       </a>
