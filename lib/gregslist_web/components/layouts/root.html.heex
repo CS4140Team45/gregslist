@@ -10,7 +10,117 @@
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
+    <!-- Font Awesome CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Your other links and scripts -->
   </head>
+
+  <!-- Top Menu Bar -->
+<div class="bg-indigo-800 text-white p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <!-- Logo or App Name -->
+    <div class="text-2xl font-semibold">
+      <a href="/">GregsList</a>
+    </div>
+    <!-- Navigation Links -->
+    <div class="flex space-x-6 relative">
+      <a href="/" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded">
+        <i class="fas fa-home mr-2"></i> Home
+      </a>
+
+      <a href="/items/new" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded">
+        <i class="fas fa-plus mr-2"></i> New Item
+      </a>
+
+      <!-- Social Dropdown -->
+      <div class="relative">
+        <button id="socialButton" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded focus:outline-none">
+          <i class="fas fa-users mr-2"></i>
+          <span>Social</span>
+        </button>
+        <!-- Dropdown Menu -->
+        <ul id="socialDropdown" class="absolute hidden bg-gray-800 text-white shadow-lg rounded mt-2 w-40 z-10">
+          <li>
+            <a href="/messages" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Messages</a>
+          </li>
+          <li>
+            <a href="/chat" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Live Chat</a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Settings Dropdown -->
+      <div class="relative">
+        <button id="settingsButton" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded focus:outline-none">
+          <i class="fas fa-cogs mr-2"></i>
+          <span>Settings</span>
+        </button>
+        <!-- Dropdown Menu -->
+        <ul id="settingsDropdown" class="absolute hidden bg-gray-800 text-white shadow-lg rounded mt-2 w-40 z-10">
+          <li>
+            <a href="/users/settings" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Settings</a>
+          </li>
+          <li>
+            <a href="/users/profile" class="block px-4 py-2 hover:bg-gray-700 rounded" onclick="handleDropdownClick(event)">Profile</a>
+          </li>
+        </ul>
+      </div>
+
+      
+
+     
+      <a href="/logout" class="flex items-center hover:bg-gray-700 px-4 py-2 rounded">
+        <i class="fas fa-sign-out-alt mr-2"></i> Log Out
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Get the button and dropdown elements for Settings
+  const settingsButton = document.getElementById('settingsButton');
+  const settingsDropdown = document.getElementById('settingsDropdown');
+  
+  // Get the button and dropdown elements for Social
+  const socialButton = document.getElementById('socialButton');
+  const socialDropdown = document.getElementById('socialDropdown');
+
+  // Toggle dropdown visibility for Settings button
+  settingsButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    settingsDropdown.classList.toggle('hidden');
+    socialDropdown.classList.add('hidden'); // Hide social dropdown if opened
+  });
+
+  // Toggle dropdown visibility for Social button
+  socialButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    socialDropdown.classList.toggle('hidden');
+    settingsDropdown.classList.add('hidden'); // Hide settings dropdown if opened
+  });
+
+  // Handle dropdown click to close after link is clicked
+  function handleDropdownClick(event) {
+    const target = event.target;
+    if (target.tagName === 'A') {
+      settingsDropdown.classList.add('hidden');
+      socialDropdown.classList.add('hidden');
+    }
+  }
+
+  // Close the dropdown if clicked outside
+  document.addEventListener('click', function(event) {
+    if (!settingsButton.contains(event.target) && !settingsDropdown.contains(event.target)) {
+      settingsDropdown.classList.add('hidden');
+    }
+    if (!socialButton.contains(event.target) && !socialDropdown.contains(event.target)) {
+      socialDropdown.classList.add('hidden');
+    }
+  });
+</script>
+
+
+
   <body class="bg-pink-100">
     <div class="bg-pink-300 shadow-lg">
       <div class="container mx-auto flex justify-between items-center">
@@ -118,6 +228,9 @@
     </div>
     <%= @inner_content %>
   </body>
+
+
+
 </html>
 <script>
   //this one is for chat and live chat
